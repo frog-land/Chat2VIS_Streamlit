@@ -1,0 +1,16 @@
+product_id,product_type_code,product_name,product_price
+1,Clothes,red jeans,734.73
+2,Clothes,yellow jeans,687.23
+3,Clothes,black jeans,695.16
+4,Clothes,blue jeans,939.57
+5,Clothes,red jeans,534.52
+6,Clothes,red topping,408.82
+7,Clothes,black topping,916.53
+8,Clothes,yellow topping,918.41
+9,Clothes,blue topping,604.86
+10,Hardware,monitor,813.76
+11,Hardware,mouse,803.74
+12,Hardware,drive,944.96
+13,Hardware,keyboard,629.89
+14,Hardware,speaker,612.46
+15,Hardware,mic,971.44
