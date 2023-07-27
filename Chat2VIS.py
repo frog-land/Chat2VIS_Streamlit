@@ -33,24 +33,21 @@ available_models = {"ChatGPT-4": "gpt-4","ChatGPT-3.5": "gpt-3.5-turbo","GPT-3":
 
 # List to hold datasets
 if "datasets" not in st.session_state:
-    df_list = {}
+    datasets = {}
     # Preload datasets
-    df_list["Movies"] = pd.read_csv("movies.csv")
-    df_list["Housing"] =pd.read_csv("housing.csv")
-    df_list["Cars"] =pd.read_csv("cars.csv")
-    df_list["Colleges"] =pd.read_csv("colleges.csv")
-    df_list["Customers & Products"] =pd.read_csv("customers_and_products_contacts.csv")
-    df_list["Department Store"] =pd.read_csv("department_store.csv")
-    df_list["Energy Production"] =pd.read_csv("energy_production.csv")
-    st.session_state["datasets"] = df_list
+    datasets["Movies"] = pd.read_csv("movies.csv")
+    datasets["Housing"] =pd.read_csv("housing.csv")
+    datasets["Cars"] =pd.read_csv("cars.csv")
+    datasets["Colleges"] =pd.read_csv("colleges.csv")
+    datasets["Customers & Products"] =pd.read_csv("customers_and_products_contacts.csv")
+    datasets["Department Store"] =pd.read_csv("department_store.csv")
+    datasets["Energy Production"] =pd.read_csv("energy_production.csv")
+    st.session_state["datasets"] = datasets
 else:
     # use the list already loaded
-    df_list = st.session_state["datasets"]
+    datasets = st.session_state["datasets"]
 
 my_key = st.text_input(label = ":key: OpenAI Key:", help="Please ensure you have an OpenAI API account with credit. ChatGPT Plus subscription does not include API access.",type="password")
-
-if "my_key" not in st.session_state:
-    st.session_state["my_key"] = my_key
 
 with st.sidebar:
     # First we want to choose the dataset, but we will fill it with choices once we've loaded one
@@ -61,42 +58,49 @@ with st.sidebar:
     index_no=0
     if uploaded_file is not None:
         # Read in the data, add it to the list of available datasets
-        df_list.update({uploaded_file.name[:-4].capitalize():pd.read_csv(uploaded_file)})
+        file_name = uploaded_file.name[:-4].capitalize()
+        datasets[file_name] = pd.read_csv(uploaded_file)
         # Default for the radio buttons
-        index_no = len(df_list)-1
+        index_no = len(datasets)-1
 
     # Radio buttons for dataset choice
-    chosen_dataset = dataset_container.radio(":bar_chart: Choose your data:",df_list.keys(),index=index_no)#,horizontal=True,)
+    chosen_dataset = dataset_container.radio(":bar_chart: Choose your data:",datasets.keys(),index=index_no)#,horizontal=True,)
 
     # Check boxes for model choice
     st.write(":brain: Choose your model(s):")
     # Keep a dictionary of whether models are selected or not
     use_model = {}
-    for model in available_models.items():
-        use_model[model[0]] = st.checkbox("{} ({})".format(model[0],model[1]),value=True,key="key_" + model[0])
+    for model_desc,model_name in available_models.items():
+        label = f"{model_desc} ({model_name})"
+        key = f"key_{model_desc}"
+        use_model[model_desc] = st.checkbox(label,value=True,key=key)
+
 # Text area for query
 question = st.text_area(":eyes: What would you like to visualise?",height=10)
 go_btn = st.button("Go...")
 
-# Make a dictionary of the models which have been selected
-model_dict = {model_name: use_model for model_name, use_model in use_model.items() if use_model}
-model_count = len(model_dict)
+# Make a list of the models which have been selected
+#model_dict = {model_name: use_model for model_name, use_model in use_model.items() if use_model}
+#model_count = len(model_dict)
+model_list = [model_name for model_name, choose_model in use_model.items() if choose_model]
+model_count = len(model_list)
+
 # Execute chatbot query
 if go_btn and model_count > 0:
     # Place for plots depending on how many models
     plots = st.columns(model_count)
     # Get the primer for this dataset
-    primer1,primer2 = get_primer(df_list[chosen_dataset],'df_list["'+ chosen_dataset + '"]')
+    primer1,primer2 = get_primer(datasets[chosen_dataset],'datasets["'+ chosen_dataset + '"]')
     # Format the question
     question_to_ask = format_question(primer1,primer2 , question)    
     # Create model, run the request and print the results
-    for plot_num, model_type in enumerate(model_dict.items()):
+    for plot_num, model_type in enumerate(model_list):
         with plots[plot_num]:
-            st.subheader(model_type[0])
+            st.subheader(model_type)
             try:
                 # Run the question
                 answer=""
-                answer = run_request(question_to_ask, available_models[model_type[0]], key=my_key)
+                answer = run_request(question_to_ask, available_models[model_type], key=my_key)
                 # the answer is the completed Python script so add to the beginning of the script to it.
                 answer = primer2 + answer
                 plot_area = st.empty()
@@ -121,15 +125,15 @@ if go_btn and model_count > 0:
 
 # Display the datasets in a list of tabs
 # Create the tabs
-tab_list = st.tabs(df_list.keys())
+tab_list = st.tabs(datasets.keys())
 
 # Load up each tab with a dataset
 for dataset_num, tab in enumerate(tab_list):
     with tab:
         # Can't get the name of the tab! Can't index key list. So convert to list and index
-        dataset_name = list(df_list.keys())[dataset_num]
+        dataset_name = list(datasets.keys())[dataset_num]
         st.subheader(dataset_name)
-        st.dataframe(df_list[dataset_name],hide_index=True)
+        st.dataframe(datasets[dataset_name],hide_index=True)
         
 # Insert footer to reference dataset origin  
 footer="""<style>.footer {position: fixed;left: 0;bottom: 0;width: 100%;text-align: center;}</style><div class="footer">
