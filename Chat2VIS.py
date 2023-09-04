@@ -17,7 +17,7 @@ st.markdown("<h1 style='text-align: center; font-weight:bold; font-family:comic 
             Chat2VIS</h1>", unsafe_allow_html=True)
 st.markdown("<h2 style='text-align: center;padding-top: 0rem;'>Creating Visualisations using Natural Language \
             with ChatGPT</h2>", unsafe_allow_html=True)
-st.sidebar.markdown('<a style="text-align: center;padding-top: 0rem;" href="mailto: i.build.apps.4.u@gmail.com">Paula Maddigan</a> and Teo Susnjak', unsafe_allow_html=True)
+st.sidebar.markdown('<a style="text-align: center;padding-top: 0rem;" href="mailto: i.build.apps.4.u@gmail.com">:email:</a>Paula Maddigan and Teo Susnjak', unsafe_allow_html=True)
 st.sidebar.markdown("<h4  style='text-align: center;font-size:small;color:grey;padding-top: 0rem;padding-bottom: .2rem;'>Chat2VIS: Generating Data \
                     Visualisations via Natural Language using ChatGPT, Codex and GPT-3 \
                  Large Language Models </h4>", unsafe_allow_html=True)
