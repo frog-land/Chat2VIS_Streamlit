@@ -93,18 +93,18 @@ question = st.text_area(":eyes: What would you like to visualise?",height=10)
 go_btn = st.button("Go...")
 
 # Make a list of the models which have been selected
-model_list = [model_name for model_name, choose_model in use_model.items() if choose_model]
-model_count = len(model_list)
+selected_models = [model_name for model_name, choose_model in use_model.items() if choose_model]
+model_count = len(selected_models)
 
 # Execute chatbot query
 if go_btn and model_count > 0:
     api_keys_entered = True
     # Check API keys are entered.
-    if  "ChatGPT-4" in model_list or "ChatGPT-3.5" in model_list or "GPT-3" in model_list or "GPT-3.5 Instruct" in model_list:
+    if  "ChatGPT-4" in selected_models or "ChatGPT-3.5" in selected_models or "GPT-3" in selected_models or "GPT-3.5 Instruct" in selected_models:
         if not openai_key.startswith('sk-'):
             st.error("Please enter a valid OpenAI API key.")
             api_keys_entered = False
-    if "Code Llama" in model_list:
+    if "Code Llama" in selected_models:
         if not hf_key.startswith('hf_'):
             st.error("Please enter a valid HuggingFace API key.")
             api_keys_entered = False
@@ -114,7 +114,7 @@ if go_btn and model_count > 0:
         # Get the primer for this dataset
         primer1,primer2 = get_primer(datasets[chosen_dataset],'datasets["'+ chosen_dataset + '"]') 
         # Create model, run the request and print the results
-        for plot_num, model_type in enumerate(model_list):
+        for plot_num, model_type in enumerate(selected_models):
             with plots[plot_num]:
                 st.subheader(model_type)
                 try:
