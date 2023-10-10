@@ -36,7 +36,7 @@ st.sidebar.caption("(https://doi.org/10.48550/arXiv.2303.14292)")
 st.sidebar.markdown('<a style="text-align: center;padding-top: 0rem;" href="https://blog.streamlit.io/chat2vis-ai-driven-visualisations-with-streamlit-and-natural-language">Blog </a> by Paula Maddigan', unsafe_allow_html=True)
 
 
-available_models = {"ChatGPT-4": "gpt-4","ChatGPT-3.5": "gpt-3.5-turbo","GPT-3": "text-davinci-003",
+available_models = {"azure ChatGPT-3.5": "azure-gpt-35-turbo", "ChatGPT-4": "gpt-4","ChatGPT-3.5": "gpt-3.5-turbo","GPT-3": "text-davinci-003",
                         "GPT-3.5 Instruct": "gpt-3.5-turbo-instruct","Code Llama":"CodeLlama-34b-Instruct-hf"}
 
 # List to hold datasets
@@ -58,6 +58,10 @@ else:
 key_col1,key_col2 = st.columns(2)
 openai_key = key_col1.text_input(label = ":key: OpenAI Key:", help="Required for ChatGPT-4, ChatGPT-3.5, GPT-3, GPT-3.5 Instruct.",type="password")
 hf_key = key_col2.text_input(label = ":hugging_face: HuggingFace Key:",help="Required for Code Llama", type="password")
+
+key_col3,key_col4 = st.columns(2)
+azure_api_key = key_col3.text_input(label = "Azure OpenAI Key:", help="Required for Azure ChatGPT-3.5",type="password")
+azure_end_point = key_col4.text_input(label = "Azure API Base",help="Required for Azure ChatGPT-3.5", type="password")
 
 with st.sidebar:
     # First we want to choose the dataset, but we will fill it with choices once we've loaded one
@@ -100,6 +104,14 @@ model_count = len(selected_models)
 if go_btn and model_count > 0:
     api_keys_entered = True
     # Check API keys are entered.
+    if "azure ChatGPT-3.5" in selected_models:        
+        # check the keys input is empty or not
+        if azure_api_key.__len__() < 16:
+            st.error("Please enter a valid Azure OpenAI API key.")
+            api_keys_entered = False
+        if not azure_end_point.startswith('https://'):
+            st.error("Please enter a valid Azure API Base.")
+            api_keys_entered = False
     if  "ChatGPT-4" in selected_models or "ChatGPT-3.5" in selected_models or "GPT-3" in selected_models or "GPT-3.5 Instruct" in selected_models:
         if not openai_key.startswith('sk-'):
             st.error("Please enter a valid OpenAI API key.")
@@ -122,7 +134,8 @@ if go_btn and model_count > 0:
                     question_to_ask = format_question(primer1, primer2, question, model_type)   
                     # Run the question
                     answer=""
-                    answer = run_request(question_to_ask, available_models[model_type], key=openai_key,alt_key=hf_key)
+                    answer = run_request(question_to_ask, available_models[model_type], key=openai_key,alt_key=hf_key,
+                                         azure_api_key=azure_api_key,azure_end_point=azure_end_point)
                     # the answer is the completed Python script so add to the beginning of the script to it.
                     answer = primer2 + answer
                     print("Model: " + model_type)
