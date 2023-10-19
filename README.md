@@ -9,6 +9,10 @@ P. Maddigan and T. Susnjak, "Chat2VIS: Generating Data Visualizations via Natura
 
 Links to Blogs:
 
+[Comparing data visualisations from Code Llama, GPT-3.5, and GPT-4](https://blog.streamlit.io/comparing-code-llama-vs-gpt-3-5-and-gpt-4-to-generate-visualisations/)  (Streamlit)
+
+[Showcasing Code Llama, GPT-3.5 Instruct, and GPT-4 for generating data visualisations](https://medium.com/@paula_m/showcasing-code-llama-gpt-3-5-instruct-and-gpt-4-for-generating-data-visualisations-f8a959729c70) (Medium)
+
 [Chat2VIS: AI-driven visualisations with Streamlit and natural language](https://blog.streamlit.io/chat2vis-ai-driven-visualisations-with-streamlit-and-natural-language/)  (Streamlit)
 
 [Chat2VIS: AI-driven data visualisations with Streamlit, ChatGPT and natural language](https://medium.com/@paula_m/chat2vis-ai-driven-data-visualisations-with-streamlit-chatgpt-and-natural-language-d70a8e41b9d4) (Medium)
