@@ -7,8 +7,27 @@
 import openai
 from langchain import HuggingFaceHub, LLMChain,PromptTemplate
 
-def run_request(question_to_ask, model_type, key, alt_key):
-    if model_type == "gpt-4" or model_type == "gpt-3.5-turbo" :
+def run_request(question_to_ask, model_type, key, alt_key, azure_api_key, azure_end_point):
+    if model_type == "azure-gpt-35-turbo":
+        task = "Generate Python Code Script."
+        openai.api_type = "azure"
+        openai.api_key = azure_api_key
+        openai.api_base = azure_end_point
+        openai.api_version = "2023-05-15"  # subject to change
+        print("question_to_ask : {}".format(question_to_ask))
+        message = [{"role": "system", "content": task},
+                   {"role": "user", "content": question_to_ask}]
+        response = openai.ChatCompletion.create(
+            engine="gpt-35-turbo",
+            messages=message,
+            temperature=0.5,
+            top_p=0.9,
+            frequency_penalty=0,
+            presence_penalty=0,
+        )
+        llm_response = response["choices"][0]["message"]["content"]
+
+    elif model_type == "gpt-4" or model_type == "gpt-3.5-turbo" :
         # Run OpenAI ChatCompletion API
         task = "Generate Python Code Script."
         if model_type == "gpt-4":
