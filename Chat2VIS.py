@@ -20,20 +20,7 @@ st.markdown("<h1 style='text-align: center; font-weight:bold; font-family:comic 
 st.markdown("<h2 style='text-align: center;padding-top: 0rem;'>Creating Visualisations using Natural Language \
             with ChatGPT and Code Llama</h2>", unsafe_allow_html=True)
 
-#st.sidebar.write(":clap: :red[*Code Llama model coming soon....*]")
-st.sidebar.markdown('<a style="text-align: center;padding-top: 0rem;" href="mailto: i.build.apps.4.u@gmail.com">:email:</a> Paula Maddigan and Teo Susnjak', unsafe_allow_html=True)
-st.sidebar.markdown("<h4  style='text-align: center;font-size:small;color:grey;padding-top: 0rem;padding-bottom: .2rem;'>Chat2VIS: Generating Data \
-                    Visualisations via Natural Language using ChatGPT, Codex and GPT-3 \
-                 Large Language Models </h4>", unsafe_allow_html=True)
-
-st.sidebar.caption("(https://doi.org/10.1109/ACCESS.2023.3274199)")
-                 
-st.sidebar.markdown("<h4  style='text-align:center;font-size:small;color:grey;padding-top: 0rem;padding-bottom: .2rem;'>Chat2VIS: Fine-Tuning Data Visualisations using Multilingual \
-Natural Language Text and Pre-Trained Large Language Models </h4>", unsafe_allow_html=True)
-
-st.sidebar.caption("(https://doi.org/10.48550/arXiv.2303.14292)")
-
-st.sidebar.markdown('<a style="text-align: center;padding-top: 0rem;" href="https://blog.streamlit.io/chat2vis-ai-driven-visualisations-with-streamlit-and-natural-language">Blog </a> by Paula Maddigan', unsafe_allow_html=True)
+st.sidebar.markdown('</a> Developed by Paula Maddigan <a style="text-align: center;padding-top: 0rem;" href="mailto: i.build.apps.4.u@gmail.com">:email:', unsafe_allow_html=True)
 
 
 available_models = {"ChatGPT-4": "gpt-4","ChatGPT-3.5": "gpt-3.5-turbo","GPT-3": "text-davinci-003",
